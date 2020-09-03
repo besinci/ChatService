@@ -1,17 +1,16 @@
-﻿using System;
+﻿using ChatService.Infrastructure;
+using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 
 namespace ChatService.Server
 {
-    public class Server
+    public class Server : BaseService
     {
-        public Socket ServerSocket { get; private set; }
-        public int PORT { get; private set; }
         public Server(int port)
         {
-            ServerSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             PORT = port;
         }
 
@@ -21,10 +20,10 @@ namespace ChatService.Server
         public void StartServer()
         {
             IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, PORT);
-            ServerSocket.Bind(endPoint);
+            Socket.Bind(endPoint);
 
-            ServerSocket.Listen(0);
-            ServerSocket.BeginAccept(Connect, null); 
+            Socket.Listen(0);
+            Socket.BeginAccept(Connect, null); 
         }
 
         private void Connect(IAsyncResult result)
@@ -33,7 +32,7 @@ namespace ChatService.Server
             try
             {
                 // accept the connection and set to a new socket.
-                socket = ServerSocket.EndAccept(result);
+                socket = Socket.EndAccept(result);
             }
             catch (Exception ex)
             {
