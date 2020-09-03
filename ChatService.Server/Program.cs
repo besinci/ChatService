@@ -10,7 +10,7 @@ namespace ChatService.Server
     {
         static void Main(string[] args)
         {
-            Console.Title = "The Matrix";
+            Console.Title = "The Server";
             Server.StartServer();
         }
     }
