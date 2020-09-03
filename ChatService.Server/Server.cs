@@ -1,40 +1,39 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ChatService.Server
 {
     public class Server
     {
-        private static readonly Socket _serverSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-        private const int _port = 100;
+        public Socket ServerSocket { get; private set; }
+        public int PORT { get; private set; }
+        public Server(int port)
+        {
+            ServerSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            PORT = port;
+        }
+
         private const int _bufferSize = 2048;
         private static readonly byte[] _buffer = new byte[_bufferSize];
 
-        public static void StartServer()
+        public void StartServer()
         {
-            Console.WriteLine("Activating server...");
+            IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, PORT);
+            ServerSocket.Bind(endPoint);
 
-            IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, _port);
-            _serverSocket.Bind(endPoint);
-
-            _serverSocket.Listen(0);
-            _serverSocket.BeginAccept(Connect, null);
-
-            Console.WriteLine("Server is active.");
+            ServerSocket.Listen(0);
+            ServerSocket.BeginAccept(Connect, null); 
         }
 
-        private static void Connect(IAsyncResult result)
+        private void Connect(IAsyncResult result)
         {
             Socket socket;
             try
             {
                 // accept the connection and set to a new socket.
-                socket = _serverSocket.EndAccept(result);
+                socket = ServerSocket.EndAccept(result);
             }
             catch (Exception ex)
             {
