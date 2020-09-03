@@ -12,6 +12,10 @@ namespace ChatService.Server
         {
             Console.Title = "The Server";
             Server.StartServer();
+
+            // Server should wait.
+            Console.WriteLine("Press any key to close server.");
+            Console.ReadLine();
         }
     }
 }
