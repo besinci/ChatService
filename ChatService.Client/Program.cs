@@ -14,7 +14,9 @@ namespace ChatService.Client
             var client = new Client(100);
             Console.Title = $"The Client #{ client.ID }";
 
-
+            Console.WriteLine($"{ client.ID } trying to connect...");
+            client.Connect();
+            Console.WriteLine($"{ client.ID } CONNECTED.");
         }
 
 
