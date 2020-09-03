@@ -11,15 +11,12 @@ namespace ChatService.Client
     {
         static void Main(string[] args)
         {
-            var clientId = GenerateClientId();
-            Console.Title = $"The Client #{ clientId }";
+            var client = new Client(100);
+            Console.Title = $"The Client #{ client.ID }";
 
 
         }
 
-        private static int GenerateClientId()
-        {
-            return new Random().Next(0, 100);
-        }
+
     }
 }
