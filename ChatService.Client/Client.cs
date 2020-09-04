@@ -1,4 +1,4 @@
-﻿using ChatService.Infrastructure;
+﻿using ChatService.;
 using System;
 using System.Net;
 using System.Net.Sockets;
@@ -6,12 +6,15 @@ using System.Text;
 
 namespace ChatService.Client
 {
-    public class Client : BaseService
+    public class Client 
     {
+        public int PORT { get; private set; }
+        public Socket Socket { get; private set; }
+
         public int ID { get; private set; }
         public DateTime LastMessageTime { get; set; }
         public int TryCount { get; set; }
-
+        
         public Client(int port)
         {
             ID = new Random().Next(0, 100);

@@ -1,13 +1,14 @@
-﻿using ChatService.Infrastructure;
-using System;
+﻿using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 
 namespace ChatService.Server
 {
-    public class Server : BaseService
+    public class Server
     {
+        public int PORT { get; private set; }
+        public Socket Socket { get; private set; }
         public int BufferSize { get; private set; }
         public byte[] Buffer { get; set; }
         public Server(int port)
