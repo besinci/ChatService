@@ -17,6 +17,9 @@ namespace ChatService.Client
             Console.WriteLine($"{ client.ID } trying to connect...");
             client.Connect();
             Console.WriteLine($"{ client.ID } CONNECTED.");
+
+            Console.WriteLine($"{ client.ID } started to listening...");
+            client.Listen();
         }
 
 

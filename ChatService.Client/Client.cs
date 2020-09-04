@@ -2,7 +2,7 @@
 using System;
 using System.Net;
 using System.Net.Sockets;
-
+using System.Text;
 
 namespace ChatService.Client
 {
@@ -33,6 +33,32 @@ namespace ChatService.Client
             }
         }
 
+        public void Listen()
+        {
+            // we should listen our client, so this is an infinite loop.
+            while (true)
+            {
+                string message = GetMessage();
+                SendMessage(message);
+            }
+        }
 
+        private void SendMessage(string message)
+        {
+            if (string.IsNullOrEmpty(message))
+            {
+                Console.WriteLine("Message can't be null!");
+                return;
+            }
+
+            byte[] buffer = Encoding.UTF8.GetBytes(message);
+            Socket.Send(buffer, 0, buffer.Length, SocketFlags.None);
+        }
+
+        private string GetMessage()
+        {
+            Console.WriteLine("Type your message: ....");
+            return Console.ReadLine();
+        }
     }
 }
