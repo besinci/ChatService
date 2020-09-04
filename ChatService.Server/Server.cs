@@ -48,7 +48,6 @@ namespace ChatService.Server
         {
             Socket current = (Socket)result.AsyncState;
             int received;
-
             try
             {
                 // get the text.
