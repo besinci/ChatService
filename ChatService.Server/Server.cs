@@ -41,6 +41,7 @@ namespace ChatService.Server
             }
 
             socket.BeginReceive(_buffer, 0, _bufferSize, SocketFlags.None, Listen, socket);
+            Socket.BeginAccept(Connect, null);
         }
 
         private static void Listen(IAsyncResult result)
