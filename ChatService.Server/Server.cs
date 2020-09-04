@@ -23,7 +23,7 @@ namespace ChatService.Server
             Socket.Bind(endPoint);
 
             Socket.Listen(0);
-            Socket.BeginAccept(Connect, null); 
+            Socket.BeginAccept(Connect, null);
         }
 
         private void Connect(IAsyncResult result)
@@ -44,7 +44,7 @@ namespace ChatService.Server
             Socket.BeginAccept(Connect, null);
         }
 
-        private static void Listen(IAsyncResult result)
+        private void Listen(IAsyncResult result)
         {
             Socket current = (Socket)result.AsyncState;
             int received;
@@ -68,13 +68,13 @@ namespace ChatService.Server
             current.BeginReceive(_buffer, 0, _bufferSize, SocketFlags.None, Listen, current);
         }
 
-        private static void SendInformation(Socket currentSocket)
+        private void SendInformation(Socket currentSocket)
         {
             byte[] response = Encoding.ASCII.GetBytes("Message successfuly delivered.");
             currentSocket.Send(response);
         }
 
-        private static void ShowMessage(int received)
+        private void ShowMessage(int received)
         {
             byte[] recBuf = new byte[received];
             Array.Copy(_buffer, recBuf, received);
