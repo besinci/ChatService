@@ -8,14 +8,15 @@ namespace ChatService.Server
 {
     public class Server : BaseService
     {
+        public int BufferSize { get; private set; }
+        public byte[] Buffer { get; set; }
         public Server(int port)
         {
             Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             PORT = port;
+            BufferSize = 2048;
+            Buffer = new byte[BufferSize];
         }
-
-        private const int _bufferSize = 2048;
-        private static readonly byte[] _buffer = new byte[_bufferSize];
 
         public void StartServer()
         {
@@ -40,7 +41,7 @@ namespace ChatService.Server
                 return;
             }
 
-            socket.BeginReceive(_buffer, 0, _bufferSize, SocketFlags.None, Listen, socket);
+            socket.BeginReceive(Buffer, 0, BufferSize, SocketFlags.None, Listen, socket);
             Socket.BeginAccept(Connect, null);
         }
 
@@ -65,7 +66,7 @@ namespace ChatService.Server
             SendInformation(current);
 
             // Calling same method again, recursive for obvious reasons...
-            current.BeginReceive(_buffer, 0, _bufferSize, SocketFlags.None, Listen, current);
+            current.BeginReceive(Buffer, 0, BufferSize, SocketFlags.None, Listen, current);
         }
 
         private void SendInformation(Socket currentSocket)
@@ -77,7 +78,7 @@ namespace ChatService.Server
         private void ShowMessage(int received)
         {
             byte[] recBuf = new byte[received];
-            Array.Copy(_buffer, recBuf, received);
+            Array.Copy(Buffer, recBuf, received);
             string message = Encoding.ASCII.GetString(recBuf);
             Console.WriteLine("Message: " + message);
         }
